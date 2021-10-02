@@ -9,11 +9,8 @@ const butter = Butter(process.env.butterCMSKey)
 export default function Home() {
   const [title,setTitle] = useState("");
   useEffect(()=>{
-    const params = {
-      'preview': 1
-  }
    
-  butter.page.retrieve('*', 'sample-page', params)
+  butter.page.retrieve('*', 'sample-page')
   .then(function(resp) {
       console.log(resp.data.data.fields.seo.title)
       setTitle(resp.data.data.fields.seo.title)
