@@ -1,8 +1,27 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import styles from '../../styles/Home.module.css'
+import Butter from 'buttercms'
+import { useEffect, useState } from 'react'
+
+const butter = Butter(process.env.butterCMSKey)
 
 export default function Home() {
+  const [title,setTitle] = useState("");
+  useEffect(()=>{
+    const params = {
+      'preview': 1
+  }
+   
+  butter.page.retrieve('*', 'sample-page', params)
+  .then(function(resp) {
+      console.log(resp.data.data.fields.seo.title)
+      setTitle(resp.data.data.fields.seo.title)
+  })
+  .catch(function(resp) {
+      console.log(resp)
+  });
+  })
   return (
     <div className={styles.container}>
       <Head>
@@ -13,7 +32,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to Next.js! {title}
         </h1>
 
         <p className={styles.description}>
